@@ -19,4 +19,4 @@
         openssl-with-oqsprovider = pkgs.callPackage ./openssl-with-providers.nix { providers = [ oqsprovider ]; };
       };
   };
-};
+}
