@@ -13,10 +13,10 @@
   in
   {
 	    # Declare some local packages be available via self.packages
-	    packages.x86_64-linux = {
+      packages.x86_64-linux = {
         default = self.packages.x86_64-linux.openssl-with-oqsprovider;
         oqsprovider = pkgs.callPackage ./oqs-provider.nix {};
         openssl-with-oqsprovider = pkgs.callPackage ./openssl-with-providers.nix { providers = [ oqsprovider ]; };
-      }
-	 };
+      };
+  };
 };
