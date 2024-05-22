@@ -16,7 +16,7 @@
 	    packages.x86_64-linux = {
         default = self.packages.x86_64-linux.openssl-with-oqsprovider;
         oqsprovider = pkgs.callPackage ./oqs-provider.nix {};
-        openssl-with-oqsprovider = pkgs.callPackage ./openssl-with-providers.nix { providers = [ oqsprovider ]};
+        openssl-with-oqsprovider = pkgs.callPackage ./openssl-with-providers.nix { providers = [ oqsprovider ]; };
       }
 	 };
 };
