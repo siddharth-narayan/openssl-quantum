@@ -18,5 +18,10 @@
         oqsprovider = pkgs.callPackage ./oqs-provider.nix {};
         openssl-with-oqsprovider = pkgs.callPackage ./openssl-with-providers.nix { providers = [ self.packages.x86_64-linux.oqsprovider ]; };
       };
+      devShells.x86_64-linux.default = pkgs.mkShell {
+      packages = with pkgs; [
+        self.packages.x86_64-linux.default
+      ];
+    };
   };
 }
