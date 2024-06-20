@@ -22,7 +22,8 @@ stdenv.mkDerivation rec {
   buildInputs = [  ];
 
   cmakeFlags = [
-    "-DBUILD_SHARED_LIBS=${if enableStatic then "OFF" else "ON"}"
+    # "-DBUILD_SHARED_LIBS=${if enableStatic then "OFF" else "ON"}"
+    "-DOQS_PROVIDER_BUILD_STATIC=${if enableStatic then "ON" else "OFF"}"
     "-DOQS_DIST_BUILD=ON"
     "-DOQS_BUILD_ONLY_LIB=ON"
   ];
@@ -30,7 +31,8 @@ stdenv.mkDerivation rec {
   installPhase = ''
     echo hi!
     mkdir -p $out/lib/ossl-modules
-    cp lib/oqsprovider.so $out/lib/ossl-modules
+    ls -la lib
+    cp lib/* $out/lib/ossl-modules
   '';
 
   dontFixCmake = true; # fix CMake file will give an error
