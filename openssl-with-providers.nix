@@ -1,19 +1,19 @@
 { lib
 , openssl
 , providers ? []
+, autoloadProviders ? true
+, quantumSafe ? true
 }:
 
-let 
-    openssl-with-providers = openssl.overrideAttrs (old: {
+ 
+openssl.overrideAttrs (old: {
         name = "openssl-with-providers";
         postInstall = old.postInstall + ''
         ${
-            lib.concatStringsSep "\n"
+            if autoloadProviders then lib.concatStringsSep "\n"
             (map
                 (provider:
                 ''
-                    # Slightly dishonest, but print all the debug stuff first (more organized)
-                    # ONLY WORKS FOR OQSPROVIDER RIGHT NOW
                     echo "Copying provider ${provider.name}"
                     echo cp -rs --no-preserve=mode "${provider}" "$out/lib/ossl-modules"
                     echo "Adding ${provider.name} to openssl.conf"
@@ -27,16 +27,25 @@ let
                     sed -i '/^[[:space:]]*#/!s/\[provider_sect\]/[provider_sect]\noqsprovider = oqsprovider_sect/g' $etc/etc/ssl/openssl.cnf
                     echo "[oqsprovider_sect]" >> $etc/etc/ssl/openssl.cnf
                     echo "activate = 1" >> $etc/etc/ssl/openssl.cnf
+                    ${if autoloadProviders then "aa" else ""}
                 ''
                 )
                 providers
-            )
+            ) else ""
         }
+        ${ if quantumSafe then 
+        ''
+        [tls_system_default]
+        Groups = x25519
+        '' 
+        else "" }
+        
+        ${ if autoloadProviders then 
+        ''
         echo Enable the default provider
         echo sed -i '/^[[:space:]]*#/!s/\[default_sect\]/[default_sect]\nactivate = 1/g' $etc/etc/ssl/openssl.cnf
         sed -i '/^[[:space:]]*#/!s/\[default_sect\]/[default_sect]\nactivate = 1/g' $etc/etc/ssl/openssl.cnf
+        ''
+        else ''''}
         '';
-  });
-
-in
-    openssl-with-providers
+})
