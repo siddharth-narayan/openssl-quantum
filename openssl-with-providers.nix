@@ -27,7 +27,6 @@ openssl.overrideAttrs (old: {
                     sed -i '/^[[:space:]]*#/!s/\[provider_sect\]/[provider_sect]\noqsprovider = oqsprovider_sect/g' $etc/etc/ssl/openssl.cnf
                     echo "[oqsprovider_sect]" >> $etc/etc/ssl/openssl.cnf
                     echo "activate = 1" >> $etc/etc/ssl/openssl.cnf
-                    ${if autoloadProviders then "aa" else ""}
                 ''
                 )
                 providers
