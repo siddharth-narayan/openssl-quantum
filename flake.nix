@@ -1,12 +1,3 @@
-# Previous shell.nix
-# { pkgs ? import <nixpkgs> {}}:
-#   pkgs.mkShell {
-#     # nativeBuildInputs is usually what you want -- tools you need to run
-#     nativeBuildInputs = with pkgs.buildPackages; [
-#       (callPackage /home/siddharth/projects/oqs-provider/with-providers.nix { providers = [ (callPackage /home/siddharth/projects/oqs-provider/oqs-provider.nix {}) ]; })
-#     ];
-# }
-
 {
   outputs = { self, nixpkgs }:
   let pkgs = import nixpkgs { system = "x86_64-linux"; };

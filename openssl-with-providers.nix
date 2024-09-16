@@ -3,6 +3,7 @@
 , providers ? []
 , autoloadProviders ? true
 , quantumSafe ? true
+, ...
 }:
 
  

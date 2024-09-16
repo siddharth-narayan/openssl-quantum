@@ -5,6 +5,7 @@
 , openssl
 , liboqs
 , enableStatic ? stdenv.hostPlatform.isStatic
+, ...
 }:
 
 stdenv.mkDerivation rec {
