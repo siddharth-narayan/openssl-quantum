@@ -34,8 +34,8 @@ openssl.overrideAttrs (old: {
         }
         ${ if quantumSafe then 
         ''
-        [tls_system_default]
-        Groups = x25519
+        echo "[tls_system_default]" >> $etc/etc/ssl/openssl.cnf
+        echo "Groups = x25519" >> $etc/etc/ssl/openssl.cnf
         '' 
         else "" }
         
