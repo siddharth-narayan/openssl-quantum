@@ -3,13 +3,13 @@
   let pkgs = import nixpkgs { system = "x86_64-linux"; };
   in
   {
-	    # Declare some local packages be available via self.packages
       packages.x86_64-linux = {
-        default = self.packages.x86_64-linux.openssl-with-oqsprovider;
-        oqsprovider-static = pkgs.callPackage ./oqs-provider.nix { enableStatic = true; };
         oqsprovider = pkgs.callPackage ./oqs-provider.nix {};
+        oqsprovider-static = pkgs.callPackage ./oqs-provider.nix { enableStatic = true; };
 
-        openssl-with-oqsprovider = pkgs.callPackage ./openssl-with-providers.nix { providers = [ self.packages.x86_64-linux.oqsprovider ]; };
+        openssl-quantum = pkgs.callPackage ./openssl-with-providers.nix { providers = [ self.packages.x86_64-linux.oqsprovider ]; };
+        
+        default = self.packages.x86_64-linux.openssl-quantum;
       };
       devShells.x86_64-linux.default = pkgs.mkShell {
       packages = with pkgs; [

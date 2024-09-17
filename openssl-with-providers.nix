@@ -6,7 +6,6 @@
 , ...
 }:
 
- 
 openssl.overrideAttrs (old: {
         name = "openssl-with-providers";
         postInstall = old.postInstall + ''
@@ -36,7 +35,7 @@ openssl.overrideAttrs (old: {
         ${ if quantumSafe then 
         ''
         echo "[tls_system_default]" >> $etc/etc/ssl/openssl.cnf
-        echo "Groups = x25519" >> $etc/etc/ssl/openssl.cnf
+        echo "Groups = p521_kyber1024:x25519_kyber768:P-521:x25519:prime256v1" >> $etc/etc/ssl/openssl.cnf
         '' 
         else "" }
         
