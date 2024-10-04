@@ -12,11 +12,11 @@
     
             openssl-quantum = pkgs.callPackage ./openssl-with-providers.nix { providers = [ self.packages.${system}.oqsprovider ]; };
             
-            default = self.packages.${system} .openssl-quantum;
+            default = self.packages.${system}.openssl-quantum;
           };
-          devShells.${system} .default = pkgs.mkShell {
+          devShells.${system}.default = pkgs.mkShell {
           packages = with pkgs; [
-            self.packages.${system} .default
+            self.packages.${system}.default
           ];
         };
       }
