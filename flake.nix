@@ -1,20 +1,24 @@
 {
-  outputs = { self, nixpkgs }:
-  let pkgs = import nixpkgs { system = "x86_64-linux"; };
-  in
-  {
-      packages.x86_64-linux = {
-        oqsprovider = pkgs.callPackage ./oqs-provider.nix {};
-        oqsprovider-static = pkgs.callPackage ./oqs-provider.nix { enableStatic = true; };
+  inputs.flake-utils.url = "github:numtide/flake-utils";
 
-        openssl-quantum = pkgs.callPackage ./openssl-with-providers.nix { providers = [ self.packages.x86_64-linux.oqsprovider ]; };
-        
-        default = self.packages.x86_64-linux.openssl-quantum;
+  outputs = { self, nixpkgs, flake-utils }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let pkgs = import nixpkgs { inherit system; };
+      in
+      {
+          packages.${system} = {
+            oqsprovider = pkgs.callPackage ./oqs-provider.nix {};
+            oqsprovider-static = pkgs.callPackage ./oqs-provider.nix { enableStatic = true; };
+    
+            openssl-quantum = pkgs.callPackage ./openssl-with-providers.nix { providers = [ self.packages.${system}.oqsprovider ]; };
+            
+            default = self.packages.${system} .openssl-quantum;
+          };
+          devShells.${system} .default = pkgs.mkShell {
+          packages = with pkgs; [
+            self.packages.${system} .default
+          ];
+        };
       };
-      devShells.x86_64-linux.default = pkgs.mkShell {
-      packages = with pkgs; [
-        self.packages.x86_64-linux.default
-      ];
-    };
-  };
+    );
 }
