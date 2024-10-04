@@ -19,6 +19,6 @@
             self.packages.${system} .default
           ];
         };
-      };
+      }
     );
 }
