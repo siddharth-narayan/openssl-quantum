@@ -2,7 +2,7 @@
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachSystem flake-utils.lib.allSystems (system:
+    flake-utils.lib.eachSystem [ system.x86_64-linux system.i686-linux ] (system:
       let pkgs = import nixpkgs { inherit system; };
       in
       {
