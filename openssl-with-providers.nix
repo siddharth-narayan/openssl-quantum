@@ -21,11 +21,11 @@ openssl.overrideAttrs (old: {
                     
                     cp --no-preserve=mode ${provider}/lib/ossl-modules/* "$out/lib/ossl-modules"
                     
-                    # sed -i '/^[[:space:]]*#/!s/\[provider_sect\]/[provider_sect]\n${provider.name} = ${provider.name}_sect/g' $etc/etc/ssl/openssl.cnf
-                    # echo "[${provider.name}_sect]" >> $etc/etc/ssl/openssl.cnf
+                    sed -i '/^[[:space:]]*#/!s/\[provider_sect\]/[provider_sect]\n${provider.pname} = ${provider.pname}_sect/g' $etc/etc/ssl/openssl.cnf
+                    echo "[${provider.pname}_sect]" >> $etc/etc/ssl/openssl.cnf
                     
-                    sed -i '/^[[:space:]]*#/!s/\[provider_sect\]/[provider_sect]\noqsprovider = oqsprovider_sect/g' $etc/etc/ssl/openssl.cnf
-                    echo "[oqsprovider_sect]" >> $etc/etc/ssl/openssl.cnf
+                    # sed -i '/^[[:space:]]*#/!s/\[provider_sect\]/[provider_sect]\noqsprovider = oqsprovider_sect/g' $etc/etc/ssl/openssl.cnf
+                    # echo "[oqsprovider_sect]" >> $etc/etc/ssl/openssl.cnf
                     echo "activate = 1" >> $etc/etc/ssl/openssl.cnf
                 ''
                 )
