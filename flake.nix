@@ -8,12 +8,12 @@
           packages = {
             liboqs = pkgs.callPackage ./liboqs.nix {};
             oqsprovider = pkgs.callPackage ./oqs-provider.nix { liboqs = self.packages.${system}.liboqs; };
-            oqsprovider-static = pkgs.callPackage ./oqs-provider.nix { liboqs = self.packages.x86_64-linux.liboqs; enableStatic = true; };
+            oqsprovider-static = pkgs.callPackage ./oqs-provider.nix { liboqs = self.packages.${system}.liboqs; enableStatic = true; };
 
-            openssl-quantum = pkgs.callPackage ./openssl-with-providers.nix { providers = [ self.packages.${system}-linux.oqsprovider ]; };
+            openssl-quantum = pkgs.callPackage ./openssl-with-providers.nix { providers = [ self.packages.${system}.oqsprovider ]; };
             default = self.packages.${system}.openssl-quantum;
           };
-          devShells.${system}.default = pkgs.mkShell {
+          devShells.default = pkgs.mkShell {
             packages = with pkgs; [
               self.packages.${system}.default
             ];

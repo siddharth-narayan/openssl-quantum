@@ -10,6 +10,7 @@
 
 stdenv.mkDerivation rec {
   pname = "oqs-provider";
+  name = "oqsprovider";
   version = "0.7.0";
 
   src = fetchFromGitHub {
